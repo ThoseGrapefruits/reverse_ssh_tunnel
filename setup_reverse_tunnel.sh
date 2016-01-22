@@ -1,7 +1,26 @@
 #!/bin/bash
-if [ -z "$SUDO_USER" ]; then
-    echo "$0 must be called from sudo. Try: 'sudo ${0}'"
+
+echo "Note: This installation must be run by a non-sudo user with sudo capabilities (to make Homebrew happy."
+
+if [ `which brew` != 0 ]; then
+  if [ `which port` != 0 ]; then
+    echo "Neither Homebrew nor Macports were found. Make sure they are installed and your path is set correctly"
     exit 1
+  else 
+    # Macports found
+    sudo port selfupdate
+    # TODO
+  fi
+else
+  # Homebrew found
+  # TODO
+fi
+
+sudo -v
+
+if [ -z "$SUDO_USER" ]; then
+  echo "$0 must be called from a sudo-enabled user."
+  exit 1
 fi
 
 SCRIPT_LOCATION="/etc/network/if-up.d/reverse_ssh_tunnel"
